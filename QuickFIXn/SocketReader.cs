@@ -169,10 +169,13 @@ namespace QuickFix
             */
             if (realCause is System.Net.Sockets.SocketException)
             {
+                string remoteEndPoint = string.Empty;
+                try { remoteEndPoint = client.Client.RemoteEndPoint.ToString(); }
+                catch { }
                 if (quickFixSession != null && quickFixSession.IsEnabled)
-                    reason = "Socket exception (" + client.Client.RemoteEndPoint + "): " + cause.Message;
+                    reason = "Socket exception (" + remoteEndPoint + "): " + cause.Message;
                 else
-                    reason = "Socket (" + client.Client.RemoteEndPoint + "): " + cause.Message;
+                    reason = "Socket (" + remoteEndPoint + "): " + cause.Message;
                 disconnectNeeded = true;
             }
             /** TODO
