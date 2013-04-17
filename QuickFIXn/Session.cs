@@ -882,7 +882,7 @@ namespace QuickFix
                     }
                 }
 
-                if (CheckLatency && !IsGoodTime(msg))
+                if (!IsGoodTime(msg))
                 {
                     this.Log.OnEvent("Sending time accuracy problem");
                     GenerateReject(msg, FixValues.SessionRejectReason.SENDING_TIME_ACCURACY_PROBLEM);
@@ -1421,11 +1421,14 @@ namespace QuickFix
 
         protected bool IsGoodTime(Message msg)
         {
-            var sendingTime = msg.Header.GetDateTime(Fields.Tags.SendingTime);
-            System.TimeSpan tmSpan = System.DateTime.UtcNow - sendingTime;
-            if (System.Math.Abs(tmSpan.TotalSeconds) > MaxLatency)
+            if (CheckLatency)
             {
-                return false;
+                var sendingTime = msg.Header.GetDateTime(Fields.Tags.SendingTime);
+                System.TimeSpan tmSpan = System.DateTime.UtcNow - sendingTime;
+                if (System.Math.Abs(tmSpan.TotalSeconds) > MaxLatency)
+                {
+                    return false;
+                }
             }
             return true;
         }
