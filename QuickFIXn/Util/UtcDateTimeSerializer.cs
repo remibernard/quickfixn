@@ -30,17 +30,9 @@ namespace QuickFix.Util
         /// <returns></returns>
         static public DateTime FromString(string s)
         {
-            try
-            {
-                DateTime d = DateTime.ParseExact(s, FORMAT,
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    System.Globalization.DateTimeStyles.AdjustToUniversal);
-                return d;
-            }
-            catch (Exception)
-            {
-                return DateTime.MinValue;
-            }
+            return DateTime.ParseExact(s, FORMAT,
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.AdjustToUniversal);
         }
     }
 }

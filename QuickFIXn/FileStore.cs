@@ -152,7 +152,16 @@ namespace QuickFix
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(sessionFileName_))
                 {
                     string s = reader.ReadToEnd();
-                    cache_.CreationTime = UtcDateTimeSerializer.FromString(s);
+
+                    try
+                    {
+                        cache_.CreationTime = UtcDateTimeSerializer.FromString(s);
+                    }
+                    catch (FormatException e)
+                    {
+                        throw new FormatException(String.Format("Invalid session date '{0}' (in {1}).",
+                            s, sessionFileName_), e);
+                    }
                 }
             }
             else

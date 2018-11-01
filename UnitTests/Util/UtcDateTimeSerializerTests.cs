@@ -51,5 +51,13 @@ namespace UnitTests.Util
             AssertHackyDateTimeEquality(d1b, d1b);
             AssertHackyDateTimeEquality(d6b, d6b);
         }
+
+        [Test]
+        public void InvalidDate()
+        {
+            Assert.Throws<FormatException>(() => {
+                UtcDateTimeSerializer.FromString("not a date");
+            });
+        }
     }
 }
