@@ -70,19 +70,26 @@ namespace QuickFix
 
         public void Run()
         {
-            while (!isShutdownRequested_)
+            try
             {
-                try
+                while (!isShutdownRequested_)
                 {
-                    socketReader_.Read();
+                    try
+                    {
+                        socketReader_.Read();
+                    }
+                    catch (System.Exception e)
+                    {
+                        Shutdown(e.Message);
+                    }
                 }
-                catch (System.Exception e)
-                {
-                    Shutdown(e.Message);
-                }
-            }
 
-            this.Log("shutdown");
+                this.Log("shutdown");
+            }
+            finally
+            {
+                log_.Dispose();
+            }
         }
 
         /// FIXME do real logging
